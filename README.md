@@ -1063,166 +1063,172 @@ function Library.AddWindown(options)
 				end
 				return inPutT
 			end
-			function Library.Main.AddSlider(options)
-				local Slider = Instance.new("Frame")
-				local UICorner_11 = Instance.new("UICorner")
-				local ButtonText = Instance.new("TextLabel")
-				local TextBox_2 = Instance.new("TextBox")
-				local UICorner_12 = Instance.new("UICorner")
-				local ValueFrame2 = Instance.new("Frame")
-				local UICorner_13 = Instance.new("UICorner")
-				local ValueFrame = Instance.new("Frame")
-				local UICorner_14 = Instance.new("UICorner")
-				local Frame = Instance.new("Frame")
-				local UICorner_15 = Instance.new("UICorner")
+function Library.Main.AddSlider(options)
+    local Slider = Instance.new("Frame")
+    local UICorner_11 = Instance.new("UICorner")
+    local ButtonText = Instance.new("TextLabel")
+    local TextBox_2 = Instance.new("TextBox")
+    local UICorner_12 = Instance.new("UICorner")
+    local ValueFrame2 = Instance.new("Frame")
+    local UICorner_13 = Instance.new("UICorner")
+    local ValueFrame = Instance.new("Frame")
+    local UICorner_14 = Instance.new("UICorner")
+    local Frame = Instance.new("Frame")
+    local UICorner_15 = Instance.new("UICorner")
 
-				Slider.Name = "Slider"
-				Slider.Parent = sections
-				Slider.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-				Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				Slider.BorderSizePixel = 0
-				Slider.Position = UDim2.new(0, 0, 0.718812883, 0)
-				Slider.Size = UDim2.new(0.949999988, 0, 0, 31)
+    Slider.Name = "Slider"
+    Slider.Parent = sections
+    Slider.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Slider.BorderSizePixel = 0
+    Slider.Position = UDim2.new(0, 0, 0.718812883, 0)
+    Slider.Size = UDim2.new(0.949999988, 0, 0, 31)
 
-				UICorner_11.CornerRadius = UDim.new(0, 2)
-				UICorner_11.Parent = Slider
+    UICorner_11.CornerRadius = UDim.new(0, 2)
+    UICorner_11.Parent = Slider
 
-				ButtonText.Name = "ButtonText"
-				ButtonText.Parent = Slider
-				ButtonText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				ButtonText.BackgroundTransparency = 1.000
-				ButtonText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				ButtonText.BorderSizePixel = 0
-				ButtonText.Position = UDim2.new(0.0462909453, 0, 0.191856131, 0)
-				ButtonText.Size = UDim2.new(0, 148, 0, 9)
-				ButtonText.Font = Enum.Font.FredokaOne
-				ButtonText.Text = options.Title
-				ButtonText.TextColor3 = Color3.fromRGB(255, 255, 255)
-				ButtonText.TextSize = 10.000
-				ButtonText.FontFace = Font.new("rbxasset://fonts/families/Ubuntu.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				ButtonText.TextXAlignment = Enum.TextXAlignment.Left
+    ButtonText.Name = "ButtonText"
+    ButtonText.Parent = Slider
+    ButtonText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonText.BackgroundTransparency = 1.000
+    ButtonText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ButtonText.BorderSizePixel = 0
+    ButtonText.Position = UDim2.new(0.0462909453, 0, 0.191856131, 0)
+    ButtonText.Size = UDim2.new(0, 148, 0, 9)
+    ButtonText.Font = Enum.Font.FredokaOne
+    ButtonText.Text = options.Title
+    ButtonText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonText.TextSize = 10.000
+    ButtonText.FontFace = Font.new("rbxasset://fonts/families/Ubuntu.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+    ButtonText.TextXAlignment = Enum.TextXAlignment.Left
 
-				TextBox_2.Parent = Slider
-				TextBox_2.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-				TextBox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				TextBox_2.BorderSizePixel = 0
-				TextBox_2.Position = UDim2.new(0.723164678, 0, 0.175377637, 0)
-				TextBox_2.Size = UDim2.new(0, 45, 0, 10)
-				TextBox_2.Font = Enum.Font.Ubuntu
-				TextBox_2.Text = options.Default
-				TextBox_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-				TextBox_2.TextSize = 9.000
+    TextBox_2.Parent = Slider
+    TextBox_2.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TextBox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextBox_2.BorderSizePixel = 0
+    TextBox_2.Position = UDim2.new(0.723164678, 0, 0.175377637, 0)
+    TextBox_2.Size = UDim2.new(0, 45, 0, 10)
+    TextBox_2.Font = Enum.Font.Ubuntu
+    TextBox_2.Text = options.Default
+    TextBox_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextBox_2.TextSize = 9.000
 
-				UICorner_12.CornerRadius = UDim.new(0, 2)
-				UICorner_12.Parent = TextBox_2
+    UICorner_12.CornerRadius = UDim.new(0, 2)
+    UICorner_12.Parent = TextBox_2
 
-				ValueFrame2.Name = "ValueFrame2"
-				ValueFrame2.Parent = Slider
-				ValueFrame2.AnchorPoint = Vector2.new(0.5, 0.5)
-				ValueFrame2.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-				ValueFrame2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				ValueFrame2.BorderSizePixel = 0
-				ValueFrame2.Position = UDim2.new(0.5, 0, 0.800000012, 0)
-				ValueFrame2.Size = UDim2.new(0, 175, 0, 2)
+    ValueFrame2.Name = "ValueFrame2"
+    ValueFrame2.Parent = Slider
+    ValueFrame2.AnchorPoint = Vector2.new(0.5, 0.5)
+    ValueFrame2.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    ValueFrame2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ValueFrame2.BorderSizePixel = 0
+    ValueFrame2.Position = UDim2.new(0.5, 0, 0.800000012, 0)
+    ValueFrame2.Size = UDim2.new(0, 175, 0, 2)
 
-				UICorner_13.CornerRadius = UDim.new(0, 5)
-				UICorner_13.Parent = ValueFrame2
+    UICorner_13.CornerRadius = UDim.new(0, 5)
+    UICorner_13.Parent = ValueFrame2
 
-				ValueFrame.Name = "ValueFrame"
-				ValueFrame.Parent = ValueFrame2
-				spawn(function() while true do task.wait() ValueFrame.BackgroundColor3 = _G.Color end end)
-				ValueFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				ValueFrame.BorderSizePixel = 0
-				--ValueFrame.Position = UDim2.new(0, 0, 0, 0)
-				ValueFrame.Size = UDim2.new(1, 0, 1, 0)
+    ValueFrame.Name = "ValueFrame"
+    ValueFrame.Parent = ValueFrame2
+    spawn(function() while true do task.wait() ValueFrame.BackgroundColor3 = _G.Color end end)
+    ValueFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ValueFrame.BorderSizePixel = 0
+    --ValueFrame.Position = UDim2.new(0, 0, 0, 0)
+    ValueFrame.Size = UDim2.new(1, 0, 1, 0)
 
-				UICorner_14.CornerRadius = UDim.new(0, 5)
-				UICorner_14.Parent = ValueFrame
+    UICorner_14.CornerRadius = UDim.new(0, 5)
+    UICorner_14.Parent = ValueFrame
 
-				Frame.Parent = ValueFrame
-				Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-				spawn(function() while true do task.wait() Frame.BackgroundColor3 = _G.Color end end)
-				Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				Frame.BorderSizePixel = 0
-				Frame.Position = UDim2.new(1, 0, 0, 0)
-				Frame.Size = UDim2.new(0, 10, 0, 10)
+    Frame.Parent = ValueFrame
+    Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+    spawn(function() while true do task.wait() Frame.BackgroundColor3 = _G.Color end end)
+    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Frame.BorderSizePixel = 0
+    Frame.Position = UDim2.new(1, 0, 0, 0)
+    Frame.Size = UDim2.new(0, 10, 0, 10)
 
-				UICorner_15.CornerRadius = UDim.new(1, 8)
-				UICorner_15.Parent = Frame
+    UICorner_15.CornerRadius = UDim.new(1, 8)
+    UICorner_15.Parent = Frame
 
-				local SliderTable = {}
+    local SliderTable = {}
 
-				function SliderTable.OnChanged(callback)
-					local Num = Nummm
-					ValueFrame:TweenSize(UDim2.new((_G.Settings[options.Title .. Num] or options.Default or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
-					callback(_G.Settings[options.Title .. Num] or options.Default)
-					TextBox_2.Text = _G.Settings[options.Title .. Num] or options.Default
-					TextBox_2.FocusLost:Connect(function()
-						if TextBox_2.Text == "" then
-							TextBox_2.Text = options.Default
-						end
-						if  tonumber(TextBox_2.Text) > options.Max then
-							TextBox_2.Text  = options.Max
-						end;if  tonumber(TextBox_2.Text) <= options.Min then
-							TextBox_2.Text  = options.Min
-						end
+    function SliderTable.OnChanged(callback)
+        local Num = Nummm
+        ValueFrame:TweenSize(UDim2.new((_G.Settings[options.Title .. Num] or options.Default or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
+        callback(_G.Settings[options.Title .. Num] or options.Default)
+        TextBox_2.Text = _G.Settings[options.Title .. Num] or options.Default
+        TextBox_2.FocusLost:Connect(function()
+            if TextBox_2.Text == "" then
+                TextBox_2.Text = options.Default
+            end
+            if tonumber(TextBox_2.Text) > options.Max then
+                TextBox_2.Text = options.Max
+            end
+            if tonumber(TextBox_2.Text) <= options.Min then
+                TextBox_2.Text = options.Min
+            end
 
-						ValueFrame:TweenSize(UDim2.new((TextBox_2.Text or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
-						TextBox_2.Text = tostring(TextBox_2.Text)
-						pcall(callback, TextBox_2.Text)
-						_G.Settings[options.Title .. Num] = tonumber(TextBox_2.Text)
-						SaveSettings()
-					end)
-					local function move(input)
-						local pos =
-							UDim2.new(
-								math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-								0,
-								0,
-								0
-							)
-						local pos1 =
-							UDim2.new(
-								math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-								0,
-								1,
-								0
-							)
+            ValueFrame:TweenSize(UDim2.new((TextBox_2.Text or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
+            TextBox_2.Text = tostring(TextBox_2.Text)
+            pcall(callback, TextBox_2.Text)
+            _G.Settings[options.Title .. Num] = tonumber(TextBox_2.Text)
+            SaveSettings()
+        end)
 
-						ValueFrame:TweenSize(pos1, "Out", "Sine", 0.2, true)
-						local value = math.floor(((pos.X.Scale * options.Max) / options.Max) * (options.Max - options.Min) + options.Min)
-						TextBox_2.Text = tostring(value)
-						callback(value)
-						_G.Settings[options.Title .. Num] = value
-						SaveSettings()
-					end
-					local dragging = false
-					Frame.InputBegan:Connect(
-						function(input)
-							if input.UserInputType == Enum.UserInputType.MouseButton1 then
-								dragging = true
+        local function move(input)
+            local pos = UDim2.new(
+                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
+                0,
+                0,
+                0
+            )
+            local pos1 = UDim2.new(
+                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
+                0,
+                1,
+                0
+            )
 
-							end
-						end
-					)
-					Frame.InputEnded:Connect(
-						function(input)
-							if input.UserInputType == Enum.UserInputType.MouseButton1 then
-								dragging = false
-							end
-						end
-					)
+            ValueFrame:TweenSize(pos1, "Out", "Sine", 0.2, true)
+            local value = math.floor(((pos.X.Scale * options.Max) / options.Max) * (options.Max - options.Min) + options.Min)
+            TextBox_2.Text = tostring(value)
+            callback(value)
+            _G.Settings[options.Title .. Num] = value
+            SaveSettings()
+        end
 
-					game:GetService("UserInputService").InputChanged:Connect(function(input)
-						if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-							move(input)
-						end
-					end)
-					
-					Nummm = Nummm + 1
-				end
-				return SliderTable
-			end
+        local dragging = false
+        Frame.InputBegan:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    move(input)
+                end
+            end
+        )
+
+        Frame.InputEnded:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = false
+                end
+            end
+        )
+
+        game:GetService("UserInputService").InputChanged:Connect(
+            function(input)
+                if dragging and input.UserInputType == Enum.UserInputType.Touch then
+                    move(input)
+                end
+            end
+        )
+
+        Nummm = Nummm + 1
+    end
+
+    return SliderTable
+end
+
 			function Library.Main.AddColorpicker(options)
 				local AddColorpicker = Instance.new("Frame")
 				local ColorpickerT = {}
@@ -1557,7 +1563,7 @@ local Dropdow = Page2.AddDropdown({ Title = "Dropdow", Multi = false, Default = 
 	print(v)
 end})
 
-local ResetVelua = Page2.AddButton({ Title = "123", })
+local ResetVelua = Page2.AddButton({ Title = "เก", })
 ResetVelua.OnChanged(function()
 	Dropdow.resetValue()
 	for _,_v in next, {"Melee2","Sword2"} do
