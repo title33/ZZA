@@ -1063,7 +1063,7 @@ function Library.AddWindown(options)
 				end
 				return inPutT
 			end
-			function Library.Main.AddSlider(options)
+function Library.Main.AddSlider(options)
     local Slider = Instance.new("Frame")
     local UICorner_11 = Instance.new("UICorner")
     local ButtonText = Instance.new("TextLabel")
@@ -1133,7 +1133,8 @@ function Library.AddWindown(options)
     spawn(function() while true do task.wait() ValueFrame.BackgroundColor3 = _G.Color end end)
     ValueFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ValueFrame.BorderSizePixel = 0
-    ValueFrame.Size = UDim2.new(0, 0, 1, 0)
+    --ValueFrame.Position = UDim2.new(0, 0, 0, 0)
+    ValueFrame.Size = UDim2.new(1, 0, 1, 0)
 
     UICorner_14.CornerRadius = UDim.new(0, 5)
     UICorner_14.Parent = ValueFrame
@@ -1151,9 +1152,26 @@ function Library.AddWindown(options)
 
     local SliderTable = {}
 
+    local dragging = false
+
+    local function move(input)
+        local mousePosition = input.Position.X
+        local frameAbsolutePosition = ValueFrame.AbsolutePosition.X
+        local frameAbsoluteSize = ValueFrame.AbsoluteSize.X
+        local newValue = math.clamp((mousePosition - frameAbsolutePosition) / frameAbsoluteSize, 0, 1)
+        local pos1 = UDim2.new(newValue, 0, 1, 0)
+
+        ValueFrame:TweenSize(pos1, "Out", "Sine", 0.2, true)
+        local value = math.floor(newValue * (options.Max - options.Min) + options.Min)
+        TextBox_2.Text = tostring(value)
+        callback(value)
+        _G.Settings[options.Title .. Num] = value
+        SaveSettings()
+    end
+
     function SliderTable.OnChanged(callback)
-        local Num = 1
-        ValueFrame:TweenSize(UDim2.new((_G.Settings[options.Title .. Num] or options.Default or 0) / options.Max, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Back, 0.2, true)
+        local Num = Nummm
+        ValueFrame:TweenSize(UDim2.new((_G.Settings[options.Title .. Num] or options.Default or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
         callback(_G.Settings[options.Title .. Num] or options.Default)
         TextBox_2.Text = _G.Settings[options.Title .. Num] or options.Default
         TextBox_2.FocusLost:Connect(function()
@@ -1167,43 +1185,40 @@ function Library.AddWindown(options)
                 TextBox_2.Text = options.Min
             end
 
-            ValueFrame:TweenSize(UDim2.new((TextBox_2.Text or 0) / options.Max, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Back, 0.2, true)
+            ValueFrame:TweenSize(UDim2.new((TextBox_2.Text or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
             TextBox_2.Text = tostring(TextBox_2.Text)
             pcall(callback, TextBox_2.Text)
             _G.Settings[options.Title .. Num] = tonumber(TextBox_2.Text)
-            --SaveSettings() -- assuming SaveSettings function exists
+            SaveSettings()
         end)
 
-    local function move(input)
-        local relativeX = input.Position.X - Slider.AbsolutePosition.X
-        local newValue = math.clamp(relativeX / Slider.AbsoluteSize.X, 0, 1)
-        ValueFrame:TweenSize(UDim2.new(newValue, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.2, true)
-        local value = math.floor(newValue * (options.Max - options.Min) + options.Min)
-        TextBox_2.Text = tostring(value)
-        callback(value)
-        _G.Settings[options.Title .. Num] = value
+        Frame.InputBegan:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    move(input)
+                end
+            end
+        )
+
+        Frame.InputEnded:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = false
+                end
+            end
+        )
+
+        game:GetService("UserInputService").InputChanged:Connect(
+            function(input)
+                if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                    move(input)
+                end
+            end
+        )
+
+        Nummm = Nummm + 1
     end
-
-    local dragging = false
-
-    Frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            move(input)
-        end
-    end)
-
-    Frame.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
-
-    game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            move(input)
-        end
-    end)
 
     return SliderTable
 end
