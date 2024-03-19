@@ -1176,58 +1176,45 @@ function Library.Main.AddSlider(options)
         end)
 
         local function move(input)
-            local pos = UDim2.new(
-                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-                0,
-                0,
-                0
-            )
-            local pos1 = UDim2.new(
-                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-                0,
-                1,
-                0
-            )
+            local mousePosition = input.Position
+            local relativePosition = mousePosition.X - ValueFrame.AbsolutePosition.X
+            local value = (relativePosition / ValueFrame.AbsoluteSize.X) * options.Max
+            value = math.clamp(value, options.Min, options.Max)
+            local percentage = value / options.Max
 
-            ValueFrame:TweenSize(pos1, "Out", "Sine", 0.2, true)
-            local value = math.floor(((pos.X.Scale * options.Max) / options.Max) * (options.Max - options.Min) + options.Min)
-            TextBox_2.Text = tostring(value)
+            ValueFrame:TweenSize(UDim2.new(percentage, 0, 1, 0), "Out", "Sine", 0.2, true)
+            TextBox_2.Text = tostring(math.floor(value))
             callback(value)
             _G.Settings[options.Title .. Num] = value
             SaveSettings()
         end
 
         local dragging = false
-        Frame.InputBegan:Connect(
-            function(input)
-                if input.UserInputType == Enum.UserInputType.Touch then
-                    dragging = true
-                    move(input)
-                end
+        Frame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                move(input)
             end
-        )
+        end)
 
-        Frame.InputEnded:Connect(
-            function(input)
-                if input.UserInputType == Enum.UserInputType.Touch then
-                    dragging = false
-                end
+        Frame.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = false
             end
-        )
+        end)
 
-        game:GetService("UserInputService").InputChanged:Connect(
-            function(input)
-                if dragging and input.UserInputType == Enum.UserInputType.Touch then
-                    move(input)
-                end
+        game:GetService("UserInputService").InputChanged:Connect(function(input)
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                move(input)
             end
-        )
+        end)
 
         Nummm = Nummm + 1
     end
 
     return SliderTable
 end
+
 
 			function Library.Main.AddColorpicker(options)
 				local AddColorpicker = Instance.new("Frame")
@@ -1486,7 +1473,7 @@ end
 
 
 local Win = Library.AddWindown({
-	["Name Hub"] = "Reach Hub - Map RoGay 001"
+	["Name Hub"] = "Reach Hub - GG"
 })
 local Tap = Win.AddTap({
 	Title = "General"
