@@ -1133,7 +1133,6 @@ function Library.Main.AddSlider(options)
     spawn(function() while true do task.wait() ValueFrame.BackgroundColor3 = _G.Color end end)
     ValueFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ValueFrame.BorderSizePixel = 0
-    --ValueFrame.Position = UDim2.new(0, 0, 0, 0)
     ValueFrame.Size = UDim2.new(1, 0, 1, 0)
 
     UICorner_14.CornerRadius = UDim.new(0, 5)
@@ -1144,7 +1143,6 @@ function Library.Main.AddSlider(options)
     spawn(function() while true do task.wait() Frame.BackgroundColor3 = _G.Color end end)
     Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Frame.BorderSizePixel = 0
-    Frame.Position = UDim2.new(1, 0, 0, 0)
     Frame.Size = UDim2.new(0, 10, 0, 10)
 
     UICorner_15.CornerRadius = UDim.new(1, 8)
@@ -1177,10 +1175,11 @@ function Library.Main.AddSlider(options)
 
         local function move(input)
             local mousePosition = input.Position
-            local relativePosition = mousePosition.X - ValueFrame.AbsolutePosition.X
-            local value = (relativePosition / ValueFrame.AbsoluteSize.X) * options.Max
-            value = math.clamp(value, options.Min, options.Max)
-            local percentage = value / options.Max
+            local absolutePosition = Slider.AbsolutePosition
+            local absoluteSize = Slider.AbsoluteSize
+            local relativeX = mousePosition.X - absolutePosition.X
+            local percentage = math.clamp(relativeX / absoluteSize.X, 0, 1)
+            local value = options.Min + (options.Max - options.Min) * percentage
 
             ValueFrame:TweenSize(UDim2.new(percentage, 0, 1, 0), "Out", "Sine", 0.2, true)
             TextBox_2.Text = tostring(math.floor(value))
@@ -1190,20 +1189,28 @@ function Library.Main.AddSlider(options)
         end
 
         local dragging = false
-        Frame.InputBegan:Connect(function(input)
+        local inputBeganConnection = nil
+        local inputChangedConnection = nil
+        local inputEndedConnection = nil
+
+        inputBeganConnection = Frame.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
                 move(input)
             end
         end)
 
-        Frame.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        inputEndedConnection = game:GetService("UserInputService").InputEnded:Connect(function(input)
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
                 dragging = false
+                if inputChangedConnection then
+                    inputChangedConnection:Disconnect()
+                    inputChangedConnection = nil
+                end
             end
         end)
 
-        game:GetService("UserInputService").InputChanged:Connect(function(input)
+        inputChangedConnection = game:GetService("UserInputService").InputChanged:Connect(function(input)
             if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
                 move(input)
             end
@@ -1482,7 +1489,7 @@ local Tap = Win.AddTap({
 local Page = Tap.AddPage({ Side = "Left", })
 
 local Label = Page.AddLabel({
-	Title = "// General \\"
+	Title = " // General \\ "
 })
 
 Label.resetValue("// 123 \\")
