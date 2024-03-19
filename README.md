@@ -1077,7 +1077,7 @@ function Library.Main.AddSlider(options)
     local UICorner_15 = Instance.new("UICorner")
 
     Slider.Name = "Slider"
-    Slider.Parent = sections
+    Slider.Parent = sections -- Assuming sections is defined somewhere in your code
     Slider.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Slider.BorderSizePixel = 0
@@ -1130,10 +1130,11 @@ function Library.Main.AddSlider(options)
 
     ValueFrame.Name = "ValueFrame"
     ValueFrame.Parent = ValueFrame2
-    spawn(function() while true do task.wait() ValueFrame.BackgroundColor3 = _G.Color end end)
+    local initialValue = (_G.Settings[options.Title] or options.Default) / options.Max
+    local initialSize = UDim2.new(initialValue, 0, 1, 0)
+    ValueFrame:TweenSize(initialSize, "Out", "Back", 0.2, true)
     ValueFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ValueFrame.BorderSizePixel = 0
-    --ValueFrame.Position = UDim2.new(0, 0, 0, 0)
     ValueFrame.Size = UDim2.new(1, 0, 1, 0)
 
     UICorner_14.CornerRadius = UDim.new(0, 5)
@@ -1141,7 +1142,6 @@ function Library.Main.AddSlider(options)
 
     Frame.Parent = ValueFrame
     Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-    spawn(function() while true do task.wait() Frame.BackgroundColor3 = _G.Color end end)
     Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Frame.BorderSizePixel = 0
     Frame.Position = UDim2.new(1, 0, 0, 0)
@@ -1154,92 +1154,49 @@ function Library.Main.AddSlider(options)
 
     function SliderTable.OnChanged(callback)
         local Num = Nummm
-        ValueFrame:TweenSize(UDim2.new((_G.Settings[options.Title .. Num] or options.Default or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
-        callback(_G.Settings[options.Title .. Num] or options.Default)
-        TextBox_2.Text = _G.Settings[options.Title .. Num] or options.Default
-        TextBox_2.FocusLost:Connect(function()
-            if TextBox_2.Text == "" then
-                TextBox_2.Text = options.Default
-            end
-            if tonumber(TextBox_2.Text) > options.Max then
-                TextBox_2.Text = options.Max
-            end
-            if tonumber(TextBox_2.Text) <= options.Min then
-                TextBox_2.Text = options.Min
-            end
-
-            ValueFrame:TweenSize(UDim2.new((TextBox_2.Text or 0) / options.Max, 0, 1, 0), "Out", "Back", 0.2, true)
-            TextBox_2.Text = tostring(TextBox_2.Text)
-            pcall(callback, TextBox_2.Text)
-            _G.Settings[options.Title .. Num] = tonumber(TextBox_2.Text)
-            SaveSettings()
-        end)
-
         local function move(input)
-            local pos = UDim2.new(
-                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-                0,
-                0,
-                0
-            )
-            local pos1 = UDim2.new(
-                math.clamp((input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X, 0, 1),
-                0,
-                1,
-                0
-            )
+            local pos = (input.Position.X - ValueFrame.AbsolutePosition.X) / ValueFrame.AbsoluteSize.X
+            local pos1 = UDim2.new(pos, 0, 1, 0)
 
             ValueFrame:TweenSize(pos1, "Out", "Sine", 0.2, true)
-            local value = math.floor(((pos.X.Scale * options.Max) / options.Max) * (options.Max - options.Min) + options.Min)
+            local value = math.floor(((pos * options.Max) / options.Max) * (options.Max - options.Min) + options.Min)
             TextBox_2.Text = tostring(value)
             callback(value)
-            _G.Settings[options.Title .. Num] = value
+            _G.Settings[options.Title] = value
             SaveSettings()
         end
 
-local isDragging = false  -- Flag to track dragging state
-local initialTouchPosition  -- Store initial touch position
+        local dragging = false
+        Frame.InputBegan:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    move(input)
+                end
+            end
+        )
 
-Frame.InputBegan:Connect(function(input)
-  if input.UserInputType == Enum.UserInputType.Touch then
-    isDragging = true
-    initialTouchPosition = input.Position
-  end
-end)
+        Frame.InputEnded:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = false
+                end
+            end
+        )
 
-Frame.InputEnded:Connect(function(input)
-  if input.UserInputType == Enum.UserInputType.Touch then
-    isDragging = false
-  end
-end)
-
-game:GetService("UserInputService").InputChanged:Connect(function(input)
-  if isDragging and input.UserInputType == Enum.UserInputType.Touch then
-    local deltaX = input.Position.X - initialTouchPosition.X
-    local relativeX = deltaX / ValueFrame.AbsoluteSize.X  -- Normalize to 0-1 range
-
-    -- Calculate new value based on relative position
-    local newValue = math.clamp(
-      ((relativeX * options.Max) / options.Max) * (options.Max - options.Min) + options.Min,
-      options.Min,
-      options.Max
-    )
-
-    -- Update UI elements and settings
-    ValueFrame:TweenSize(UDim2.new(relativeX, 0, 1, 0), "Out", "Sine", 0.2, true)
-    TextBox_2.Text = tostring(newValue)
-    callback(newValue)
-    _G.Settings[options.Title .. Num] = newValue
-    SaveSettings()
-  end
-end)
+        game:GetService("UserInputService").InputChanged:Connect(
+            function(input)
+                if dragging and input.UserInputType == Enum.UserInputType.Touch then
+                    move(input)
+                end
+            end
+        )
 
         Nummm = Nummm + 1
     end
 
     return SliderTable
 end
-
 
 
 			function Library.Main.AddColorpicker(options)
